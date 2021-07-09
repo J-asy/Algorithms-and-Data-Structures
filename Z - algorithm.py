@@ -29,8 +29,6 @@ def z_algorithm(string):
                 number_known_same_char = right - index + 1
                 left, right, counter = character_comparison(string, right + 1, left, right, number_known_same_char)
                 z_array[index] = counter
-        # print("index:" + str(index) + "; z val: " + str(z_array[index]) + " left: " + str(left)
-        #       + " right: " + str(right))
         index += 1
 
     return z_array
@@ -58,25 +56,3 @@ def character_comparison(string, pointer, left, right, number_known_same_char):
             right = pointer - 1
     return left, right, counter
 
-
-def z_algo_tester():
-    f = open("ZAlgoTests(abc).txt")
-    contents = f.read().splitlines()
-    f.close()
-
-    ans_list = []
-    for test_case in contents:
-        ans_list += [z_algorithm(test_case)]
-
-    output_file = open("test output.txt", "w")
-    for ans in ans_list:
-        output_file.write(str(ans) + "\n")
-    output_file.close()
-
-
-if __name__ == "__main__":
-    # z_algo_tester()
-    t = "abdabdabcbcd"
-    p = "abcd"
-    my_str = p + "$" + t
-    print(z_algorithm(my_str))
