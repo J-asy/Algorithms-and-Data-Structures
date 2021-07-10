@@ -1,6 +1,8 @@
-
+""" """
 
 class Node:
+    """ A node in the trie """
+    
     def __init__(self, level=None, data=None, size=27):
         self.link = [None]*size  # where $ is at index 0
         self.data = data         # data payload
@@ -13,9 +15,12 @@ class Trie:
         self.total_words = 0  # number of unique words stored
 
     def insert(self, key, data=None):
+        """ Inserts data into the trie with a corresponding key 
+        :time complexity: O(n), where n is the length of key
+        """
         # begin from the root
         current = self.root
-        # go through the key 1 by 1
+        # go through the key 1 character by 1
         count_level = 0
         for i in range(len(key) + 1):
             count_level += 1
@@ -39,10 +44,12 @@ class Trie:
         current.data = data
 
     def insert_recurse(self, key, data=None):
+        """ Recursive version of insert function """
         current = self.root
         self.insert_recurse_aux(key, data, current)
 
     def insert_recurse_aux(self, key, data, current, char=0):
+        """ Helper function for insert_recurse """
         if char == len(key):  # if reach end of key, where terminal should be
             if current.link[0] is None:
                 current.link[0] = Node(level=char+1)
@@ -57,6 +64,10 @@ class Trie:
             self.insert_recurse_aux(key, data, current.link[next_ind], char + 1)
 
     def search(self, key):
+        """ Searches for a key in the trie and returns payload if found,
+        raises exception otherwise
+        :time complexity: O(n), where n is the length of the key
+        """
         # begin from the root
         current = self.root
         # go through the key 1 by 1
@@ -77,10 +88,12 @@ class Trie:
                 raise Exception(str(key) + " does not exist. ")
 
     def search_recurse(self, key):
+        """ Recursive version of search function """
         current = self.root
         return self.search_recurse_aux(key, current)
 
     def search_recurse_aux(self, key, current, char=0):
+        """ Helper function for search_recurse """
         # if reach the end of the key, now looking at terminal character
         if char == len(key):
             if current.link[0] is None:
@@ -96,8 +109,7 @@ class Trie:
 
     def build_suffix_trie(self, key):
         """ Given a string, key, builds a suffix trie for it
-
-        :complexity: O(K^2), where K is the length of the key
+        :time complexity: O(K^2), where K is the length of the key
         """
         for char in range(len(key)):
             current = self.root
