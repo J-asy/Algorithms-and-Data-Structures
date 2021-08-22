@@ -73,14 +73,15 @@ def grids_augmented_with_number(part_grid, val, curr_row=0):
 
 
 def solve(grid, num=1):
-    """ Returns all possible solutions for a given grid """
+    """ Returns one possible solutions for the given grid """
     if num == len(grid) + 1:
-        return [grid]
+        return grid, True
     else:
-        res = []
         for option in grids_augmented_with_number(grid, num):
-            res += solve(option, num+1)
-        return res
+            sol, flag = solve(option, num + 1)
+            if flag:
+                return sol, True
+        return [], False
 
 
 def sudoku_solver(filename):
@@ -96,15 +97,14 @@ def sudoku_solver(filename):
             row += [char if char == "x" else int(char)]
         grid.append(row)
 
-    # display solution
-    print("[")
-    for solution in solve(grid):
-        print(" [")
-        for r in solution:
-            print("     " + str(r))
-        print(" ]")
-    print("]")
+    solution, flag = solve(grid)
+    if flag:
+        # display solution
+        for row in solution:
+            print(" " + str(row))
+    else:
+        print("Unsolvable")
 
 
 if __name__ == "__main__":
-    sudoku_solver("./sudoku_tests/b.txt")
+    sudoku_solver("./sudoku/sudoku_testcase/a.txt")
